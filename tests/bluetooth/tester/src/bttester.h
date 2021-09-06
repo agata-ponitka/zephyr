@@ -857,6 +857,7 @@ struct mesh_config_provisioning_cmd {
 	uint16_t out_actions;
 	uint8_t in_size;
 	uint16_t in_actions;
+	uint8_t auth_method;
 } __packed;
 
 #define MESH_PROVISION_NODE		0x03
@@ -868,6 +869,7 @@ struct mesh_provision_node_cmd {
 	uint32_t seq_num;
 	uint16_t addr;
 	uint8_t dev_key[16];
+	uint8_t pub_key[0];
 } __packed;
 
 #define MESH_INIT			0x04
