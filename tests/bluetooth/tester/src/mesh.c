@@ -39,6 +39,7 @@ static uint16_t addr;
 static uint8_t dev_key[16];
 static uint8_t input_size;
 static uint8_t pub_key[64];
+static uint8_t priv_key[32];
 
 /* Configured provisioning data */
 static uint8_t dev_uuid[16];
@@ -460,6 +461,13 @@ static void config_prov(uint8_t *data, uint16_t len)
 		err = bt_mesh_auth_method_set_input(prov.input_actions, prov.input_size);
 	} else if (cmd->auth_method == AUTH_METHOD_STATIC) {
 		err = bt_mesh_auth_method_set_static(static_auth, sizeof(static_auth));
+	}
+
+	if (len > sizeof(*cmd)) {
+		memcpy(pub_key, cmd->set_keys->pub_key, sizeof(cmd->set_keys->pub_key));
+		memcpy(priv_key, cmd->set_keys->priv_key, sizeof(cmd->set_keys->priv_key));
+		prov.public_key_be = pub_key;
+		prov.private_key_be = priv_key;
 	}
 
 	if (err) {
