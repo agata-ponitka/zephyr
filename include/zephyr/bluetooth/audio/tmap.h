@@ -12,6 +12,31 @@
 #include <zephyr/bluetooth/conn.h>
 #include <zephyr/sys/util.h>
 
+#define TMAP_CG_SUPPORTED                                                                          \
+	(IS_ENABLED(CONFIG_BT_CAP_INITIATOR) && IS_ENABLED(CONFIG_BT_BAP_UNICAST_CLIENT) &&        \
+	 IS_ENABLED(CONFIG_BT_TBS) && IS_ENABLED(CONFIG_BT_VCP_VOL_CTLR))
+
+#define TMAP_CT_SUPPORTED                                                                          \
+	(IS_ENABLED(CONFIG_BT_CAP_ACCEPTOR) && IS_ENABLED(CONFIG_BT_BAP_UNICAST_SERVER) &&         \
+	 IS_ENABLED(CONFIG_BT_TBS_CLIENT) &&                                                       \
+	 (IS_ENABLED(CONFIG_BT_ASCS_ASE_SNK) &&                                                    \
+	  IS_ENABLED(CONFIG_BT_VCP_VOL_REND) == IS_ENABLED(CONFIG_BT_ASCS_ASE_SNK)))
+
+#define TMAP_UMS_SUPPORTED                                                                         \
+	(IS_ENABLED(CONFIG_BT_CAP_INITIATOR) &&                                                    \
+	 IS_ENABLED(CONFIG_BT_BAP_UNICAST_CLIENT_ASE_SNK) && IS_ENABLED(CONFIG_BT_VCP_VOL_CTLR) && \
+	 IS_ENABLED(CONFIG_BT_MCS))
+
+#define TMAP_UMR_SUPPORTED                                                                         \
+	(IS_ENABLED(CONFIG_BT_CAP_ACCEPTOR) && IS_ENABLED(CONFIG_BT_ASCS_ASE_SNK) &&               \
+	 IS_ENABLED(CONFIG_BT_VCP_VOL_REND))
+
+#define TMAP_BMS_SUPPORTED                                                                         \
+	(IS_ENABLED(CONFIG_BT_CAP_INITIATOR) && IS_ENABLED(CONFIG_BT_BAP_BROADCAST_SOURCE))
+
+#define TMAP_BMR_SUPPORTED                                                                         \
+	(IS_ENABLED(CONFIG_BT_CAP_ACCEPTOR) && IS_ENABLED(CONFIG_BT_BAP_BROADCAST_SINK))
+
 /** @brief TMAP Role characteristic */
 enum bt_tmap_role {
 	BT_TMAP_ROLE_CG = BIT(0),
